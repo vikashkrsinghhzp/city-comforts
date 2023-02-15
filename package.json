@@ -1,0 +1,11 @@
+{
+  "name": "city-comforts",
+  "version": "1.0.0",
+  "description": "Web application which provides various service professionals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
