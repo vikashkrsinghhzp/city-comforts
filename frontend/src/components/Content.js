@@ -2,32 +2,35 @@ import React from 'react'
 
 export default function Content() {
   return (
-    <div>
+    <div className="shadow p-3 mb-5 bg-white rounded">
 
-      <div style={{width:'70%', marginLeft:'30px',marginTop:'50px',marginBottom:'30px' ,border:'1px solid black', float:'left'}}>
+      <div style={{width:'70%', marginLeft:'30px',marginTop:'50px',marginBottom:'30px', float:'left'}}>
 
-        <h2 style={{marginLeft:'20px'}}>About</h2>
+        <h3 style={{marginLeft:'20px'}}>About</h3>
 
-        <p style={{marginLeft:'20px', marginRight:'20px'}}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Sed, neque omnis? Placeat officia porro ipsam veniam sunt assumenda doloribus esse.
-          Ullam aliquid nesciunt eius amet accusantium, nisi illo eaque eligendi? Lorem ipsum, 
-          dolor sit amet consectetur adipisicing elit. Quidem, iusto vel. Provident labore repudiandae totam 
-          perferendis minima distinctio quis, ex dolores necessitatibus excepturi quasi repellendus odit, maiores obcaecati 
-          dolorum, vel deleniti eaque vitae accusamus autem eius culpa. Ipsum fuga, quidem dolore delectus 
-          itaque earum impedit omnis, ipsa, id facere inventore?
+        <p className="shadow p-3 mb-5 bg-white rounded" style={{marginLeft:'20px', marginRight:'20px'}}>
+        The aim of <b>City Comforts </b> is to provide a platform for users 
+        to interact with a diverse range of service professionals such as 
+        plumbers, carpenters, electricians and other housekeeping 
+        services, in order to offer innovative, high-quality and cost-effective services.
+        <br/>
+        <br/>
+        The application will act as a 
+        mediator between the clients and the professionals of their 
+        respective fields, providing convenience and choice to the customers.
+        The aim is to maintain a commitment to ethical and socially responsible 
+        business practices while improving accessibility to these essential services.
         </p>
 
       </div>
 
-
       <div style={{width:'30%', marginLeft:'30px',float:'right', marginTop:'20px'}}>
-        <h2>Founder</h2>
+        <h4>Founder</h4>
 
         <ul>
-          <li>Vikash</li>
-          <li>Saurav</li>
-          <li>Deekashant</li>
+          <li>Vikash Singh <br/> ( Cyber Security Specialist )</li>
+          <li>Saurav Kumar <br/> ( Machine Learning Specialist )</li>
+          <li>Deekashant Thakur <br/> ( Data Science Specialist )</li>
         </ul>
       </div>
     </div>
