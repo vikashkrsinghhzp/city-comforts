@@ -1,55 +1,55 @@
 import mongoose from 'mongoose'
 
 const jobseekerSchema = mongoose.Schema({
-	name:{
+	name: {
 		type: String,
 		required: true
 	},
-	gender:{
+	gender: {
 		type: String,
 		required: true
 	},
-	contact:{
+	contact: {
 		type: String,
 		required: true
 	},
-	email:{
+	email: {
 		type: String,
 		required: true
 	},
-	password:{
+	password: {
 		type: String,
 		required: true
 	},
-	cpassword:{
+	
+	aadharNum: {
 		type: String,
 		required: true
 	},
-	aadharNum:{
+	aadharImg: {
+		type: String,
+
+	},
+
+	address1: { type: String, required: true },
+	address2: { type: String, required: true },
+	city: { type: String, required: true },
+	state: { type: String, required: true },
+	country: { type: String, required: true },
+	pincode: { type: String, required: true },
+	expertise: {
 		type: String,
 		required: true
 	},
-	aadharImg:{
-		type: String,
-		required: true
-	},
-	userAddress:{
-		address1:{type: String, required: true},
-		address2:{type: String, required: true},
-		city:{type: String, required: true},
-		state:{type: String, required: true},
-		country:{type: String, required: true},
-		pincode:{type: String, required: true},
-	},
-	expertise:{
-		type: String,
-		required: true
-	},
-	experience:{
+	experience: {
 		type: String,
 		required: true
 	},
 })
+
+const Jobseeker = mongoose.model('Jobseeker', jobseekerSchema)
+
+export default Jobseeker
 
 
 
