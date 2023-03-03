@@ -5,7 +5,6 @@ import Content from '../components/Content';
 function HomeScreen() {
   return (
     <div>
-      <Navbar/>
       <Content/>
     </div>
   )

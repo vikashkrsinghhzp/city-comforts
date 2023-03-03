@@ -7,6 +7,9 @@ import Bottom from './components/Bottom';
 import Content from './components/Content';
 import ServiceProviderForm from './components/ServiceProviderForm';
 import CustomerRegForm from './components/CustomerRegForm';
+import HomeScreen from './screens/HomeScreen';
+import JobseekerRegScreen from './screens/JobseekerRegScreen';
+import UserRegScreen from './screens/UserRegScreen';
 
 
 
@@ -15,10 +18,14 @@ function App() {
     <div className="App">
       <Header/>
       <Navbar/>
-      <Content/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomeScreen/>}></Route>
+          <Route path="/new-jobseeker" element={<JobseekerRegScreen/>}></Route>
+          <Route path="/new-user" element={<UserRegScreen/>}></Route>
+        </Routes>
+      </Router>
       <Bottom/>
-      <ServiceProviderForm/>
-      <CustomerRegForm/>
     </div>
   )
 }
