@@ -1,0 +1,11 @@
+.sign-container{ 
+    height: 50vh;
+    align-content: 'center'; 
+    margin-left: 33%; 
+    margin-right: 33%; 
+    margin-top: 5%; 
+    margin-bottom: 10%
+}
+.footer{
+    display:"flex"; justify-content:"center"; background:"aqua"; width:'100%'; position: 'absolute'; left: '0'; bottom:'0'; right:'0'
+}
