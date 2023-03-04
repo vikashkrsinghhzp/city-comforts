@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 
 function Login(props) {
   return (
-    <Form className='shadow p-3 mb-5 bg-white rounded sign-container'>
+    <Form className='shadow p-5 mb-5 rounded sign-container'>
       <Form.Group className="m-4" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" placeholder="Enter email" name='email' onChange={props.handleChange}/>
