@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 
 function ServiceProviderForm(props) {
+    const [image, setImage] = useState("");
+    const [url, setUrl] = useState("");
+
     const navigate = useNavigate();
     const test = (e)=>{
         console.log("working");
     }
+
+    const uploadImage = () => {
+        const data = FormData();
+        data.append("file", image);
+        data.append("upload_preset", "city-comforts");
+        data.append("cloud_name", "dd1sbx4hb");
+        console.log(data);
+        fetch("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload",{
+            method:"POST",
+            body:data
+        })
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
+
     const SendData = async (e) => {
         e.preventDefault();
         console.log("working");
         const {name, gender, contact, email, password, cpassword, aadhar_num, aadhar_img, address1, address2, city, state, zipcode, country, expertise, experience} = props.jobseekerData;
-        const res = fetch('/api/new-jobseeker', {
+        const res = fetch('http://localhost:5000/api/new-jobseeker', {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -85,7 +108,8 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicAadharScan">
                         <Form.Label>Upload Aadhar</Form.Label>
-                        <Form.Control type="file" />
+                        <Form.Control type="file" accept='image/*' onChange={(e)=>setImage(e.target.files[0])}/>
+                        <Button onClick={uploadImage}>Upload</Button>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicAddress">
