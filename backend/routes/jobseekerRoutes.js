@@ -23,7 +23,7 @@ router.post('/new-jobseeker', (req, res) => {
 			res.status(200).send({"msg": "inserted to db"})
 		}
 	})
-    //res.json({message: req.body});
+   // res.json({message: req.body});
 })
 // router.post('/new-jobseeker', (req, res, next) => {
 //     const { name, gender, contact, email, password, cpassword, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience } = req.body;
