@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 function ServiceProviderForm(props) {
     const [image, setImage] = useState("");
@@ -34,28 +35,17 @@ function ServiceProviderForm(props) {
 
     const SendData = async (e) => {
         e.preventDefault();
-        console.log("working");
-        const {name, gender, contact, email, password, cpassword, aadhar_num, aadhar_img, address1, address2, city, state, zipcode, country, expertise, experience} = props.jobseekerData;
-        const res = fetch('http://localhost:5000/api/new-jobseeker', {
-            method: "POST",
-            headers:{
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                name, gender, contact, email, password, cpassword, aadhar_num, aadhar_img, address1, address2, city, state, zipcode, country, expertise, experience
-            })
-        });
-        const data = await res.json();
-        if(data.status === 422 || !data){
-            window.alert("Invalid data");
-            console.log("Invalid data");
-        }else{
-            window.alert("Successful registration");
-            console.log("successful registration");
-            navigate('/');
-        }
-
+        await axios.post('/api/new-jobseeker', props.jobseekerData)
+        .then((res) => {
+            console.log(res.status, res.data);
+            navigate('/')
+        })
+          .catch((error) => {
+            console.log(error);
+          });
     }
+
+    
     return (
         <div className="shadow p-3 mb-5 bg-white rounded" style={{ alignContent: 'center', marginLeft: '20%', marginRight: '20%', marginTop: '50px', marginBottom: '50px'}}>
 
@@ -103,7 +93,7 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicAadhar">
                         <Form.Label>Aadhar No</Form.Label>
-                        <Form.Control type="number" placeholder="Enter your 12 digit Aadhar No" name='aadhar_num' onChange={props.handleChange} />
+                        <Form.Control type="number" placeholder="Enter your 12 digit Aadhar No" name='aadharNum' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicAadharScan">
@@ -131,7 +121,7 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicPin">
                         <Form.Label>Pin Code</Form.Label>
-                        <Form.Control type="number" placeholder="Enter your 6 digit Area Pin Code" name='zipcode' onChange={props.handleChange}/>
+                        <Form.Control type="number" placeholder="Enter your 6 digit Area Pin Code" name='pincode' onChange={props.handleChange}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicGender">

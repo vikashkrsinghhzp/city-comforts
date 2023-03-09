@@ -10,7 +10,7 @@ const jobseekerSchema = mongoose.Schema({
 		required: true
 	},
 	contact: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	email: {
@@ -23,7 +23,7 @@ const jobseekerSchema = mongoose.Schema({
 	},
 	
 	aadharNum: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	aadharImg: {
@@ -36,7 +36,7 @@ const jobseekerSchema = mongoose.Schema({
 	city: { type: String, required: true },
 	state: { type: String, required: true },
 	country: { type: String, required: true },
-	pincode: { type: String, required: true },
+	pincode: { type: Number, required: true },
 	expertise: {
 		type: String,
 		required: true
