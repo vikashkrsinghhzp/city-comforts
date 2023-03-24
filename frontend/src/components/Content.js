@@ -66,7 +66,7 @@ export default function Content() {
         </div>
       </div>
 
-      <div style={{ width: '30%', marginLeft: '30px', float: 'right', marginTop: '20px' }}>
+      <div style={{ width: '30%', marginLeft: '30px', float: 'right', marginTop: '20px', marginBottom: '40px' }}>
 
         <h4>Founder</h4>
 

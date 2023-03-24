@@ -7,7 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function Header() {
   return (
-    <Navbar  expand="lg" className='nav' fixed='top'>
+    <Navbar  expand="lg" className='nav' fixed='top' style={{background:'#F39C12'}}>
       <Container fluid>
         <Navbar.Brand href="/" style={{ color: 'white' }}>City Comforts</Navbar.Brand>
         <Navbar.Collapse id="navbarScroll">
