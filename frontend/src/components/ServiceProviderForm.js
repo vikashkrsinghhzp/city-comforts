@@ -120,14 +120,14 @@ function ServiceProviderForm(props) {
                         </select>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicCity">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control type="text" placeholder="Enter your City" name='city' onChange={props.handleChange}/>
-                    </Form.Group>
-
                     <Form.Group className="mb-3" controlId="formBasicState">
                         <Form.Label>State</Form.Label>
                         <Form.Control type="text" placeholder="Enter your State" name='state' onChange={props.handleChange} />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicCity">
+                        <Form.Label>City</Form.Label>
+                        <Form.Control type="text" placeholder="Enter your City" name='city' onChange={props.handleChange}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPin">
