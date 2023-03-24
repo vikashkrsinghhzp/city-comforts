@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const jobseekerSchema = mongoose.Schema({
+const customerSchema = mongoose.Schema({
 	name: {
 		type: String,
 		required: true
@@ -21,15 +21,6 @@ const jobseekerSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	
-	aadharNum: {
-		type: Number,
-		required: true
-	},
-	aadharImg: {
-		type: String,
-
-	},
 
 	address1: { type: String, required: true },
 	address2: { type: String, required: true },
@@ -37,14 +28,6 @@ const jobseekerSchema = mongoose.Schema({
 	state: { type: String, required: true },
 	country: { type: String, required: true },
 	pincode: { type: Number, required: true },
-	expertise: {
-		type: String,
-		required: true
-	},
-	experience: {
-		type: String,
-		required: true
-	},
 	isAdmin: {
 		type: Boolean,
 		required: true,
@@ -52,9 +35,9 @@ const jobseekerSchema = mongoose.Schema({
 	}
 })
 
-const Jobseeker = mongoose.model('Jobseeker', jobseekerSchema)
+const Customer = mongoose.model('Customer', customerSchema)
 
-export default Jobseeker
+export default Customer
 
 
 

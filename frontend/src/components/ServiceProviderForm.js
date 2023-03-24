@@ -10,32 +10,23 @@ function ServiceProviderForm(props) {
     const [url, setUrl] = useState("");
 
     const navigate = useNavigate();
-    const test = (e)=>{
-        console.log("working");
-    }
-
-    const uploadImage = () => {
-        const data = FormData();
-        data.append("file", image);
-        data.append("upload_preset", "city-comforts");
-        data.append("cloud_name", "dd1sbx4hb");
-        console.log(data);
-        fetch("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload",{
-            method:"POST",
-            body:data
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    }
 
     const SendData = async (e) => {
         e.preventDefault();
-        await axios.post('/api/new-jobseeker', props.jobseekerData)
+
+        const data = new FormData();
+        data.append("upload_preset", "city-comforts");
+        data.append("file", image);
+        await axios.post('https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload', data)
+        .then(res => setUrl(res.data.url))
+        .catch(err => console.log(err));
+        const updateData = {...props.jobseekerData}
+        updateData["aadharImg"]=url
+        props.setJobseekerData(updateData)
+        console.log(url)
+        console.log(props.jobseekerData)
+        
+        await axios.post('/api/jobseeker', props.jobseekerData)
         .then((res) => {
             console.log(res.status, res.data);
             navigate('/')
@@ -99,7 +90,6 @@ function ServiceProviderForm(props) {
                     <Form.Group className="mb-3" controlId="formBasicAadharScan">
                         <Form.Label>Upload Aadhar</Form.Label>
                         <Form.Control type="file" accept='image/*' onChange={(e)=>setImage(e.target.files[0])}/>
-                        <Button onClick={uploadImage}>Upload</Button>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicAddress">
