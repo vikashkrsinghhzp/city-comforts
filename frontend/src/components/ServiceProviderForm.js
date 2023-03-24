@@ -109,6 +109,17 @@ function ServiceProviderForm(props) {
                         <Form.Control type="text" placeholder="Enter Address Line 2" name='address2' onChange={props.handleChange} />
                     </Form.Group>
 
+                    <Form.Group className="mb-3" controlId="formBasicGender">
+                        <label for="exampleFormControlSelect1">Country</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name='country' onChange={props.handleChange}>
+                            <option>Select your Country</option>
+                            <option>India</option>
+                            <option>Nepal</option>
+                            <option>Pakistan</option>
+                            <option>Other</option>
+                        </select>
+                    </Form.Group>
+
                     <Form.Group className="mb-3" controlId="formBasicCity">
                         <Form.Label>City</Form.Label>
                         <Form.Control type="text" placeholder="Enter your City" name='city' onChange={props.handleChange}/>
@@ -122,30 +133,6 @@ function ServiceProviderForm(props) {
                     <Form.Group className="mb-3" controlId="formBasicPin">
                         <Form.Label>Pin Code</Form.Label>
                         <Form.Control type="number" placeholder="Enter your 6 digit Area Pin Code" name='pincode' onChange={props.handleChange}/>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicGender">
-                        <label for="exampleFormControlSelect1">Country</label>
-                        <select class="form-control" id="exampleFormControlSelect1" name='country' onChange={props.handleChange}>
-                            <option>Select your Country</option>
-                            <option>Afghanistan</option>
-                            <option>Bhutan</option>
-                            <option>China</option>
-                            <option>India</option>
-                            <option>Indonesia</option>
-                            <option>Israel</option>
-                            <option>Japan</option>
-                            <option>Malaysia</option>
-                            <option>Maldives</option>
-                            <option>Nepal</option>
-                            <option>Pakistan</option>
-                            <option>Russia</option>
-                            <option>Sri Lanka</option>
-                            <option>Thailand</option>
-                            <option>Turkey</option>
-                            <option>Vietnam</option>
-                            <option>Other</option>
-                        </select>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicExperties">
