@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors'
 import dotenv from 'dotenv';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import jobseekerRoutes from './routes/jobseekerRoutes.js';
+import customerRoutes from './routes/customerRoutes.js'
 import connectDB from './config/db.js'
 import Test from './models/testModel.js';
 
@@ -35,13 +37,17 @@ app.get('/insert', (req, res) => {
 	})
 })
 
-app.use('/api', jobseekerRoutes)
+app.use('/api/jobseeker', jobseekerRoutes)
 
-app.use((err, req, res) => {
-	console.log(err);
-});
+app.use('/api/customer', customerRoutes)
 
+// app.use((err, req, res) => {
+// 	console.log(err);
+// });
 
+app.use(notFound)
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, console.log(`Server is running on port ${PORT}`))
