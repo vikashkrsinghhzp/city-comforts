@@ -1,44 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from 'axios';
+import { Country, State, City } from "country-state-city";
+import Select from "react-select";
+
 
 function ServiceProviderForm(props) {
     const [image, setImage] = useState("");
     const [url, setUrl] = useState("");
 
     const navigate = useNavigate();
+    const test = (e) => {
+        console.log("working");
+    }
+
+    const uploadImage = () => {
+        const data = FormData();
+        data.append("file", image);
+        data.append("upload_preset", "city-comforts");
+        data.append("cloud_name", "dd1sbx4hb");
+        console.log(data);
+        fetch("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload", {
+            method: "POST",
+            body: data
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
     const SendData = async (e) => {
         e.preventDefault();
-
-        const data = new FormData();
-        data.append("upload_preset", "city-comforts");
-        data.append("file", image);
-        await axios.post('https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload', data)
-        .then(res => setUrl(res.data.url))
-        .catch(err => console.log(err));
-        const updateData = {...props.jobseekerData}
-        updateData["aadharImg"]=url
-        props.setJobseekerData(updateData)
-        console.log(url)
-        console.log(props.jobseekerData)
-        
-        await axios.post('/api/jobseeker', props.jobseekerData)
-        .then((res) => {
-            console.log(res.status, res.data);
-            navigate('/')
-        })
-          .catch((error) => {
-            console.log(error);
-          });
+        await axios.post('/api/new-jobseeker', props.jobseekerData)
+            .then((res) => {
+                console.log(res.status, res.data);
+                navigate('/')
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
-    
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [selectedState, setSelectedState] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
+    useEffect(() => {
+        console.log(selectedCountry);
+        console.log(selectedCountry?.isoCode);
+        console.log(State?.getStatesOfCountry(selectedCountry?.isoCode));
+    }, [selectedCountry]);
+
+
     return (
-        <div className="shadow p-3 mb-5 bg-white rounded" style={{ alignContent: 'center', marginLeft: '20%', marginRight: '20%', marginTop: '50px', marginBottom: '50px'}}>
+        <div className="shadow p-3 mb-5 bg-white rounded" style={{ alignContent: 'center', marginLeft: '20%', marginRight: '20%', marginTop: '50px', marginBottom: '50px' }}>
 
             <div style={{ marginLeft: '20px', marginRight: '20px' }}>
 
@@ -49,7 +70,7 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="name">
                         <Form.Label>Full Name</Form.Label>
-                        <Form.Control type="text" placeholder="Full Name" name='name' onChange={props.handleChange}/>
+                        <Form.Control type="text" placeholder="Full Name" name='name' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="gender" onChange={props.handleChange}>
@@ -64,22 +85,22 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="contact">
                         <Form.Label>Mobile No</Form.Label>
-                        <Form.Control type="number" placeholder="Enter your 10 digit Mobile No" name='contact' onChange={props.handleChange}/>
+                        <Form.Control type="number" placeholder="Enter your 10 digit Mobile No" name='contact' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="email">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" name='email' onChange={props.handleChange}/>
+                        <Form.Control type="email" placeholder="Enter email" name='email' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" name='password' onChange={props.handleChange}/>
-                        <br/>
+                        <Form.Control type="password" placeholder="Password" name='password' onChange={props.handleChange} />
+                        <br />
                         <Form.Text className="text-muted">
                             Please use Strong Password contains Number, Symbol, UpperCase, LowerCase.
                         </Form.Text>
-                        <Form.Control type="password" placeholder="Re enter your Password" name='cpassword' onChange={props.handleChange}/>
+                        <Form.Control type="password" placeholder="Re enter your Password" name='cpassword' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicAadhar">
@@ -89,53 +110,74 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicAadharScan">
                         <Form.Label>Upload Aadhar</Form.Label>
-                        <Form.Control type="file" accept='image/*' onChange={(e)=>setImage(e.target.files[0])}/>
+                        <Form.Control type="file" accept='image/*' onChange={(e) => setImage(e.target.files[0])} />
+                        <Button onClick={uploadImage}>Upload</Button>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicAddress">
                         <Form.Label>Address</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Address Line 1" name='address1' onChange={props.handleChange}/>
+                        <Form.Control type="text" placeholder="Enter Address Line 1" name='address1' onChange={props.handleChange} />
                         <br />
                         <Form.Control type="text" placeholder="Enter Address Line 2" name='address2' onChange={props.handleChange} />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicCity">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control type="text" placeholder="Enter your City" name='city' onChange={props.handleChange}/>
+                    <Form.Group className="mb-3" controlId="formBasicGender">
+                        <label for="exampleFormControlSelect1">Country</label>
+                        <Select
+                            options={Country.getAllCountries()}
+                            getOptionLabel={(options) => {
+                                return options["name"];
+                            }}
+                            getOptionValue={(options) => {
+                                return options["name"];
+                            }}
+                            value={selectedCountry}
+                            onChange={(item) => {
+                                setSelectedCountry(item);
+                            }}
+                        />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicState">
-                        <Form.Label>State</Form.Label>
-                        <Form.Control type="text" placeholder="Enter your State" name='state' onChange={props.handleChange} />
+                        <label>State</label>
+                        <Select
+                            options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
+                            getOptionLabel={(options) => {
+                                return options["name"];
+                            }}
+                            getOptionValue={(options) => {
+                                return options["name"];
+                            }}
+                            value={selectedState}
+                            onChange={(item) => {
+                                setSelectedState(item);
+                            }}
+                        />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicCity">
+                        <label>City</label>
+                        <Select
+                            options={City.getCitiesOfState(
+                                selectedState?.countryCode,
+                                selectedState?.isoCode
+                            )}
+                            getOptionLabel={(options) => {
+                                return options["name"];
+                            }}
+                            getOptionValue={(options) => {
+                                return options["name"];
+                            }}
+                            value={selectedCity}
+                            onChange={(item) => {
+                                setSelectedCity(item);
+                            }}
+                        />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPin">
                         <Form.Label>Pin Code</Form.Label>
-                        <Form.Control type="number" placeholder="Enter your 6 digit Area Pin Code" name='pincode' onChange={props.handleChange}/>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicGender">
-                        <label for="exampleFormControlSelect1">Country</label>
-                        <select class="form-control" id="exampleFormControlSelect1" name='country' onChange={props.handleChange}>
-                            <option>Select your Country</option>
-                            <option>Afghanistan</option>
-                            <option>Bhutan</option>
-                            <option>China</option>
-                            <option>India</option>
-                            <option>Indonesia</option>
-                            <option>Israel</option>
-                            <option>Japan</option>
-                            <option>Malaysia</option>
-                            <option>Maldives</option>
-                            <option>Nepal</option>
-                            <option>Pakistan</option>
-                            <option>Russia</option>
-                            <option>Sri Lanka</option>
-                            <option>Thailand</option>
-                            <option>Turkey</option>
-                            <option>Vietnam</option>
-                            <option>Other</option>
-                        </select>
+                        <Form.Control type="number" placeholder="Enter your 6 digit Area Pin Code" name='pincode' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicExperties">
