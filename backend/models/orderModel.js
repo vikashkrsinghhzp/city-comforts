@@ -14,7 +14,7 @@ const orderSchema = mongoose.Schema({
             jobseeker: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
-                ref:'Jobseeker'
+                ref:'Product'
             }
         }
     ],

@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Jobseeker from "../models/jobseekerModel.js";
+import Product from '../models/productModel.js'
 import generateToken from '../utils/generateToken.js';
 
 const authJobseeker = asyncHandler(async (req, res) => {
@@ -7,7 +8,7 @@ const authJobseeker = asyncHandler(async (req, res) => {
     
     const jobseeker = await Jobseeker.findOne({email})
 
-    if(jobseeker && (await jobseeker.matchpassword(password))){
+    if(jobseeker && (await jobseeker.matchPassword(password))){
         res.json({
             _id: jobseeker._id,
             name: jobseeker.name,
@@ -33,6 +34,13 @@ const registerJobseeker = asyncHandler(async (req, res) => {
     }
 
     const jobseeker = await Jobseeker.create({ name, gender, contact, email, password, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience })
+    
+    const product = await Product.create({
+        name: name,
+        image: "abc",
+        expertise: expertise,
+        description: "xyz",
+    })
     // const jobseeker = new Jobseeker({ name, gender, contact, email, password, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience })
     
     // jobseeker.save((err, data)=>{
@@ -44,7 +52,7 @@ const registerJobseeker = asyncHandler(async (req, res) => {
     //     		}
     //     	})
 
-    if(jobseeker){
+    if(jobseeker && product){
         res.status(201).json({
             _id: jobseeker._id,
             name: jobseeker.name,

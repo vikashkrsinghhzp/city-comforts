@@ -65,4 +65,4 @@ const getCustomerProfile = asyncHandler(async (req, res) => {
     }
 })
 
-export { registerCustomer, authCustomer }
+export { registerCustomer, authCustomer, getCustomerProfile }
