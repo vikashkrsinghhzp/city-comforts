@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import jobseekerRoutes from './routes/jobseekerRoutes.js';
 import customerRoutes from './routes/customerRoutes.js'
+import productRoutes from './routes/productRoutes.js'
 import connectDB from './config/db.js'
 import Test from './models/testModel.js';
 
@@ -40,6 +41,8 @@ app.get('/insert', (req, res) => {
 app.use('/api/jobseeker', jobseekerRoutes)
 
 app.use('/api/customer', customerRoutes)
+
+app.use('/api/products', productRoutes)
 
 // app.use((err, req, res) => {
 // 	console.log(err);
