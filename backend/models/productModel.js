@@ -9,11 +9,6 @@ const reviewSchema = mongoose.Schema({
 })
 
 const productSchema = mongoose.Schema({
-    customer: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Customer'
-    },
     name: {
         type: String,
         required: true
