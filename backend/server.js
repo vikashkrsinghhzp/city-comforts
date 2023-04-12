@@ -5,6 +5,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import jobseekerRoutes from './routes/jobseekerRoutes.js';
 import customerRoutes from './routes/customerRoutes.js'
 import productRoutes from './routes/productRoutes.js'
+import additionalRoutes from './routes/additionalRoutes.js'
 import connectDB from './config/db.js'
 import Test from './models/testModel.js';
 
@@ -43,6 +44,8 @@ app.use('/api/jobseeker', jobseekerRoutes)
 app.use('/api/customer', customerRoutes)
 
 app.use('/api/products', productRoutes)
+
+app.use('/api/expertise', additionalRoutes)
 
 // app.use((err, req, res) => {
 // 	console.log(err);

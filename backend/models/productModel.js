@@ -9,11 +9,20 @@ const reviewSchema = mongoose.Schema({
 })
 
 const productSchema = mongoose.Schema({
+    jobseeker: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref:'Jobseeker'
+    },
     name: {
         type: String,
         required: true
     },
     image: {
+        type: String,
+        required: true
+    },
+    sample: {
         type: String,
         required: true
     },

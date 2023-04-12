@@ -18,11 +18,15 @@ function JobseekerRegScreen() {
     pincode:"",
     country:"",
     expertise:"",
-    experience:""
+    experience:"",
+    profileImg:"",
+    workSample:"",
+    description:""
   })
   const handleChange = (event) => {
-    console.log(event);
+    
     event.preventDefault();
+    console.log(event);
     
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;

@@ -24,7 +24,7 @@ const authJobseeker = asyncHandler(async (req, res) => {
 })
 
 const registerJobseeker = asyncHandler(async (req, res) => {
-    const { name, gender, contact, email, password, cpassword, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience } = req.body;
+    const { name, gender, contact, email, password, cpassword, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience, profileImg, workSample, description } = req.body;
 
     const jobseekerExists = await Jobseeker.findOne({ email })
 
@@ -33,13 +33,15 @@ const registerJobseeker = asyncHandler(async (req, res) => {
         throw new Error("User already exists")
     }
 
-    const jobseeker = await Jobseeker.create({ name, gender, contact, email, password, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience })
+    const jobseeker = await Jobseeker.create({ name, gender, contact, email, password, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience, profileImg, workSample, description })
     
     const product = await Product.create({
+        jobseeker: jobseeker,
         name: name,
-        image: "abc",
+        image: profileImg,
+        sample: workSample,
         expertise: expertise,
-        description: "xyz",
+        description: description,
     })
     // const jobseeker = new Jobseeker({ name, gender, contact, email, password, aadharNum, aadharImg, address1, address2, city, state, country, pincode, expertise, experience })
     

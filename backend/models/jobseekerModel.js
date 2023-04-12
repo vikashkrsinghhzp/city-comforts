@@ -46,6 +46,18 @@ const jobseekerSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
+	profileImg:{
+		type: String,
+		required: true
+	},
+    workSample:{
+		type: String,
+		required: true
+	},
+	description: {
+		type: String,
+		required: true
+	},
 	isAdmin: {
 		type: Boolean,
 		required: true,
