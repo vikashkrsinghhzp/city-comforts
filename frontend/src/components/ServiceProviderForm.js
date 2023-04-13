@@ -6,30 +6,95 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { Country, State, City } from "country-state-city";
 import Select from "react-select";
+import { Col, InputGroup } from 'react-bootstrap';
 
 
 function ServiceProviderForm(props) {
-    const [image, setImage] = useState("");
-    const [url, setUrl] = useState("");
+    // const [url, setUrl] = useState();
+    // const [aadhUrl, setAadhUrl] = useState();
+    // const [samUrl, setSamUrl] = useState();
+    let url = ''
+    const [profileImg, setProfileImg] = useState("");
+    const [aadharImg, setAadharImg] = useState();
+    const [workSample, setWorkSample] = useState("")
+    
+    const [expertise, setExpertise] = useState([])
+ 
+
+    useEffect(() => {
+        console.log(8)
+        const fetchExpertise = async () => {
+        const response = await axios.get('/api/expertise');
+        //console.log(response);
+        setExpertise(response.data);
+        };
+        fetchExpertise();
+    }, [])
 
     const navigate = useNavigate();
     const test = (e) => {
         console.log("working");
     }
 
-    const uploadImage = () => {
-        const data = FormData();
-        data.append("file", image);
-        data.append("upload_preset", "city-comforts");
-        data.append("cloud_name", "dd1sbx4hb");
-        console.log(data);
-        fetch("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload", {
-            method: "POST",
-            body: data
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
+        
+    const uploadAadhar = (e) => {
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append("file", aadharImg)
+        
+        formData.append("upload_preset", "city-comforts");
+        formData.append("cloud_name", "dd1sbx4hb");
+        console.log(formData);
+        
+        axios.post("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload", formData)
+            .then(res => {
+                url = (res.data.secure_url)
+                console.log(url)
+                const newData = {...props.jobseekerData}
+                console.log(url)
+                newData["aadharImg"]=url;
+                props.setJobseekerData(newData);
+                console.log(newData)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const uploadProfile = async (fieldName) => {
+        const formData = new FormData();
+        formData.append("file", profileImg)
+        
+        formData.append("upload_preset", "city-comforts");
+        formData.append("cloud_name", "dd1sbx4hb");
+        console.log(formData);
+        await axios.post("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload", formData)
+            .then(res => {
+                url = (res.data.secure_url)
+                const newData = {...props.jobseekerData}
+                newData[fieldName]=url;
+                props.setJobseekerData(newData);
+                console.log(newData)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const uploadSample = () => {
+        const formData = new FormData();
+        formData.append("file", workSample)
+        
+        formData.append("upload_preset", "city-comforts");
+        formData.append("cloud_name", "dd1sbx4hb");
+        console.log(formData);
+        axios.post("https://api.cloudinary.com/v1_1/dd1sbx4hb/image/upload", formData)
+            .then(res => {
+                url = (res.data.secure_url)
+                const newData = {...props.jobseekerData}
+                newData["workSample"]=url;
+                props.setJobseekerData(newData);
+                console.log(newData)
             })
             .catch(err => {
                 console.log(err)
@@ -38,7 +103,7 @@ function ServiceProviderForm(props) {
 
     const SendData = async (e) => {
         e.preventDefault();
-        await axios.post('/api/new-jobseeker', props.jobseekerData)
+        await axios.post('/api/jobseeker', props.jobseekerData)
             .then((res) => {
                 console.log(res.status, res.data);
                 navigate('/')
@@ -56,6 +121,24 @@ function ServiceProviderForm(props) {
         console.log(selectedCountry?.isoCode);
         console.log(State?.getStatesOfCountry(selectedCountry?.isoCode));
     }, [selectedCountry]);
+
+    const findCountryCode = () => {
+        const countries = Country.getAllCountries();
+        countries.map(country => {
+            if(country.name === props.jobseekerData.country){
+                setSelectedCountry(country.isoCode)
+            }
+        })
+    }
+
+    const findStateCode = () => {
+        const states = State?.getStatesOfCountry(selectedCountry)
+        states.map(state => {
+            if(state.name === props.jobseekerData.state){
+                setSelectedState(state.isoCode)
+            }
+        })
+    }
 
 
     return (
@@ -110,8 +193,11 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicAadharScan">
                         <Form.Label>Upload Aadhar</Form.Label>
-                        <Form.Control type="file" accept='image/*' onChange={(e) => setImage(e.target.files[0])} />
-                        <Button onClick={uploadImage}>Upload</Button>
+                        <InputGroup>
+                        <Form.Control type="file" accept='image/*' onChange={(e) => setAadharImg(e.target.files[0])} />
+                        <Button onClick={uploadAadhar}>Upload</Button>
+                        </InputGroup>
+                        
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicAddress">
@@ -123,56 +209,48 @@ function ServiceProviderForm(props) {
 
                     <Form.Group className="mb-3" controlId="formBasicGender">
                         <label for="exampleFormControlSelect1">Country</label>
-                        <Select
-                            options={Country.getAllCountries()}
-                            getOptionLabel={(options) => {
-                                return options["name"];
-                            }}
-                            getOptionValue={(options) => {
-                                return options["name"];
-                            }}
-                            value={selectedCountry}
-                            onChange={(item) => {
-                                setSelectedCountry(item);
-                            }}
-                        />
+                        
+                        <select class="form-control" id="exampleFormControlSelect1" name='country' onChange={props.handleChange}>
+                            <option>Select Country</option>
+                            {
+                                Country.getAllCountries().map(country => {
+                                    return (
+                                        <option>{country.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
+
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicState">
+                    <Form.Group className="mb-3" controlId="formBasicState" onClick={findCountryCode}>
                         <label>State</label>
-                        <Select
-                            options={State?.getStatesOfCountry(selectedCountry?.isoCode)}
-                            getOptionLabel={(options) => {
-                                return options["name"];
-                            }}
-                            getOptionValue={(options) => {
-                                return options["name"];
-                            }}
-                            value={selectedState}
-                            onChange={(item) => {
-                                setSelectedState(item);
-                            }}
-                        />
+                        
+                        <select class="form-control" id="exampleFormControlSelect1" name='state' onChange={props.handleChange}>
+                            <option>Select State</option>
+                            {
+                                State?.getStatesOfCountry(selectedCountry).map(state => {
+                                    return (
+                                        <option>{state.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicCity">
+                    <Form.Group className="mb-3" controlId="formBasicCity" onClick={findStateCode}>
                         <label>City</label>
-                        <Select
-                            options={City.getCitiesOfState(
-                                selectedState?.countryCode,
-                                selectedState?.isoCode
-                            )}
-                            getOptionLabel={(options) => {
-                                return options["name"];
-                            }}
-                            getOptionValue={(options) => {
-                                return options["name"];
-                            }}
-                            value={selectedCity}
-                            onChange={(item) => {
-                                setSelectedCity(item);
-                            }}
-                        />
+                        
+                        <select class="form-control" id="exampleFormControlSelect1" name='city' onChange={props.handleChange}>
+                            <option>Select City</option>
+                            {
+                                City.getCitiesOfState(selectedCountry, selectedState).map(city => {
+                                    return (
+                                        <option>{city.name}</option>
+                                    )
+                                })
+                            }
+                        </select>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPin">
@@ -184,14 +262,13 @@ function ServiceProviderForm(props) {
                         <label for="exampleFormControlSelect1">Experties</label>
                         <select class="form-control" id="exampleFormControlSelect1" name='expertise' onChange={props.handleChange}>
                             <option>Select your respective Experties</option>
-                            <option>Electrician</option>
-                            <option>Plumber</option>
-                            <option>House Builder</option>
-                            <option>Carpenter</option>
-                            <option>Machanic</option>
-                            <option>Tailor</option>
-                            <option>Mobiler & Laptop Repair</option>
-                            <option>Others</option>
+                            {
+                                expertise.map(exp => {
+                                    return (
+                                        <option>{exp.expertise}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </Form.Group>
 
@@ -209,6 +286,26 @@ function ServiceProviderForm(props) {
                             <option>13-15</option>
                             <option>More than 15years</option>
                         </select>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicAadharScan">
+                        <Form.Label>Upload Profile Photo</Form.Label>
+                        <InputGroup>
+                        <Form.Control type="file" accept='image/*' onChange={(e) => setProfileImg(e.target.files[0])} />
+                        <Button onClick={() => uploadProfile("profileImg")}>Upload</Button>
+                        </InputGroup>
+                        
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicAadharScan">
+                        <Form.Label>Upload Sample of previous work</Form.Label>
+                        <InputGroup>
+                        <Form.Control type="file" accept='image/*' onChange={(e) => setWorkSample(e.target.files[0])} />
+                        <Button onClick={uploadSample}>Upload</Button>
+                        </InputGroup>
+                        
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicAddress">
+                        <Form.Label>Describe yourself</Form.Label>
+                        <Form.Control as='textarea' rows={5} name='description' onChange={props.handleChange} />
                     </Form.Group>
 
                     <Button variant="primary" type="submit" onClick={SendData}>
